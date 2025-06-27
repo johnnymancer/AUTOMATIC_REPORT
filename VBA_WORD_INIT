@@ -1,0 +1,50 @@
+Sub SetupReportTemplate()
+    ' --- 1. 文書全体の基本フォント設定 ---
+    ' 日本語用フォントを設定
+    ActiveDocument.Styles("標準").Font.NameFarEast = "MS Mincho"
+    ' 英数字用フォントを設定
+    ActiveDocument.Styles("標準").Font.NameAscii = "Times New Roman"
+    ' ギリシャ文字などは手動でSymbolフォントを選択するのが確実です
+
+    ' --- 2. 本文スタイルの設定 ("標準" スタイル) ---
+    With ActiveDocument.Styles("標準").Font
+        .Size = 10.5
+    End With
+    With ActiveDocument.Styles("標準").ParagraphFormat
+        ' 1文字分の字下げを設定
+        .CharacterUnitFirstLineIndent = 1
+    End With
+
+    ' --- 3. 見出しスタイルの設定 ---
+    ' 章見出し (見出し1)
+    With ActiveDocument.Styles("見出し 1")
+        .Font.NameFarEast = "MS Gothic" ' ゴシック体
+        .Font.NameAscii = "MS Gothic"
+        .Font.Size = 12
+        .Font.Bold = True ' 太字にする場合
+        .ParagraphFormat.KeepWithNext = True ' 次の段落と分離させない
+        .ParagraphFormat.OutlineLevel = wdOutlineLevel1
+    End With
+
+    ' 節見出し (見出し2)
+    With ActiveDocument.Styles("見出し 2")
+        .Font.NameFarEast = "MS Gothic"
+        .Font.NameAscii = "MS Gothic"
+        .Font.Size = 12
+        .Font.Bold = True
+        .ParagraphFormat.KeepWithNext = True
+        .ParagraphFormat.OutlineLevel = wdOutlineLevel2
+    End With
+    
+    ' 項見出し (見出し3)
+    With ActiveDocument.Styles("見出し 3")
+        .Font.NameFarEast = "MS Gothic"
+        .Font.NameAscii = "MS Gothic"
+        .Font.Size = 10.5
+        .Font.Bold = True
+        .ParagraphFormat.KeepWithNext = True
+        .ParagraphFormat.OutlineLevel = wdOutlineLevel3
+    End With
+
+    MsgBox "レポート用の書式設定が完了しました。"
+End Sub
