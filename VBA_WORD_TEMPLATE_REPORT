@@ -1,0 +1,51 @@
+Sub InsertReportStructure()
+    ' --- カーソル位置にレポート構成を挿入 ---
+    Dim sel As Selection
+    Set sel = Application.Selection
+
+    ' 各見出しを挿入
+    sel.Style = ActiveDocument.Styles("見出し 1")
+    sel.TypeText Text:="1. 実験目的"
+    sel.TypeParagraph() ' 改行
+    sel.Style = ActiveDocument.Styles("標準")
+    sel.TypeParagraph() ' 本文用の空行
+
+    sel.Style = ActiveDocument.Styles("見出し 1")
+    sel.TypeText Text:="2. 実験原理"
+    sel.TypeParagraph()
+    sel.Style = ActiveDocument.Styles("標準")
+    sel.TypeParagraph()
+
+    sel.Style = ActiveDocument.Styles("見出し 1")
+    sel.TypeText Text:="3. 実験結果"
+    sel.TypeParagraph()
+    sel.Style = ActiveDocument.Styles("標準")
+    sel.TypeParagraph()
+
+    sel.Style = ActiveDocument.Styles("見出し 1")
+    sel.TypeText Text:="4. 考察"
+    sel.TypeParagraph()
+    sel.Style = ActiveDocument.Styles("標準")
+    sel.TypeParagraph()
+
+    sel.Style = ActiveDocument.Styles("見出し 1")
+    sel.TypeText Text:="5. 結論"
+    sel.TypeParagraph()
+    sel.Style = ActiveDocument.Styles("標準")
+    sel.TypeParagraph()
+    
+    sel.Style = ActiveDocument.Styles("見出し 1")
+    sel.TypeText Text:="6. 検討事項"
+    sel.TypeParagraph()
+    sel.Style = ActiveDocument.Styles("標準")
+    sel.TypeParagraph()
+
+    sel.Style = ActiveDocument.Styles("見出し 1")
+    sel.TypeText Text:="7. 参考文献"
+    sel.TypeParagraph()
+    sel.Style = ActiveDocument.Styles("標準")
+    ' 参考文献は段落番号を使うため、手動で設定するか、
+    ' ListGalleries(wdNumberGallery).ListTemplates(1).Name = "" のようなコードで設定します。
+    
+    MsgBox "レポートの構成を挿入しました。"
+End Sub
