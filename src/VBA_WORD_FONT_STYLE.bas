@@ -1,9 +1,14 @@
+' 定数定義
+Private Const FONT_JP As String = "MS Mincho"
+Private Const FONT_EN As String = "Times New Roman"
+Private Const FONT_HEADING As String = "MS Gothic"
+
 Sub SetupReportTemplate()
     ' --- 1. 文書全体の基本フォント設定 ---
     ' 日本語用フォントを設定
-    ActiveDocument.Styles("標準").Font.NameFarEast = "MS Mincho"
+    ActiveDocument.Styles("標準").Font.NameFarEast = FONT_JP
     ' 英数字用フォントを設定
-    ActiveDocument.Styles("標準").Font.NameAscii = "Times New Roman"
+    ActiveDocument.Styles("標準").Font.NameAscii = FONT_EN
     ' ギリシャ文字などは手動でSymbolフォントを選択するのが確実です
 
     ' --- 2. 本文スタイルの設定 ("標準" スタイル) ---
@@ -18,8 +23,8 @@ Sub SetupReportTemplate()
     ' --- 3. 見出しスタイルの設定 ---
     ' 章見出し (見出し1)
     With ActiveDocument.Styles("見出し 1")
-        .Font.NameFarEast = "MS Gothic" ' ゴシック体
-        .Font.NameAscii = "MS Gothic"
+        .Font.NameFarEast = FONT_HEADING ' ゴシック体
+        .Font.NameAscii = FONT_HEADING
         .Font.Size = 12
         .Font.Bold = True ' 太字にする場合
         .ParagraphFormat.KeepWithNext = True ' 次の段落と分離させない
@@ -28,8 +33,8 @@ Sub SetupReportTemplate()
 
     ' 節見出し (見出し2)
     With ActiveDocument.Styles("見出し 2")
-        .Font.NameFarEast = "MS Gothic"
-        .Font.NameAscii = "MS Gothic"
+        .Font.NameFarEast = FONT_HEADING
+        .Font.NameAscii = FONT_HEADING
         .Font.Size = 12
         .Font.Bold = True
         .ParagraphFormat.KeepWithNext = True
@@ -38,8 +43,8 @@ Sub SetupReportTemplate()
     
     ' 項見出し (見出し3)
     With ActiveDocument.Styles("見出し 3")
-        .Font.NameFarEast = "MS Gothic"
-        .Font.NameAscii = "MS Gothic"
+        .Font.NameFarEast = FONT_HEADING
+        .Font.NameAscii = FONT_HEADING
         .Font.Size = 10.5
         .Font.Bold = True
         .ParagraphFormat.KeepWithNext = True

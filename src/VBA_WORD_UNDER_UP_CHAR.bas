@@ -1,3 +1,7 @@
+' 一時文字の定義（ドキュメント内で使用されないであろう私用領域の文字を利用）
+Private Const TEMP_UNDERSCORE As String = ChrW(&HE000)
+Private Const TEMP_CARET As String = ChrW(&HE001)
+
 ' =================================================================
 ' メインマクロ：これを実行すればOK
 ' =================================================================
@@ -34,7 +38,9 @@ Private Sub ConvertToSubscript()
     With rng.Find
         .ClearFormatting
         .Replacement.ClearFormatting
-        .Text = "_(<*>)_" ' ワイルドカード: _ で囲まれた1文字以上の文字列
+        ' ワイルドカード検索: _ で囲まれた1文字以上の文字列にマッチ
+        ' <*>,@, ?などのワイルドカードが使用可能
+        .Text = "_(<*>)_"
         .MatchWildcards = True
         .Wrap = wdFindStop
         
@@ -45,8 +51,10 @@ Private Sub ConvertToSubscript()
             
             ' 残った範囲の文字を下付きに設定
             rng.Font.Subscript = True
-            ' 太字や斜体などの書式を解除しないようにする
-            rng.Font.Bold = rng.Font.Bold 
+
+            ' 下付き/上付き設定時に他の書式（太字など）が解除されることがあるため、
+            ' 現在の書式を再適用してこれを防ぐ
+            rng.Font.Bold = rng.Font.Bold
             rng.Font.Italic = rng.Font.Italic
 
             ' 検索範囲を処理済みの箇所の直後に移動してループを継続
@@ -63,7 +71,9 @@ Private Sub ConvertToSuperscript()
     With rng.Find
         .ClearFormatting
         .Replacement.ClearFormatting
-        .Text = "\^(<*>)\^" ' ワイルドカード: ^ で囲まれた1文字以上の文字列
+        ' ワイルドカード検索: ^ で囲まれた1文字以上の文字列にマッチ
+        ' \^ とすることで、^をワイルドカードではなく通常の文字として検索
+        .Text = "\^(<*>)\^"
         .MatchWildcards = True
         .Wrap = wdFindStop
         
@@ -74,7 +84,7 @@ Private Sub ConvertToSuperscript()
             
             ' 残った範囲の文字を上付きに設定
             rng.Font.Superscript = True
-            ' 太字や斜体などの書式を解除しないようにする
+            ' 書式維持のため、現在の書式を再適用
             rng.Font.Bold = rng.Font.Bold
             rng.Font.Italic = rng.Font.Italic
 
@@ -92,14 +102,14 @@ Private Sub EscapeMarkers()
         .Replacement.ClearFormatting
         .MatchWildcards = False
         
-        ' "__" を一時文字(私用領域の文字)に置換
+        ' "__" を一時文字に置換
         .Text = "__"
-        .Replacement.Text = ChrW(&HE000) ' 仮のアンダースコア
+        .Replacement.Text = TEMP_UNDERSCORE
         .Execute Replace:=wdReplaceAll
         
         ' "^^" を一時文字に置換
         .Text = "^^"
-        .Replacement.Text = ChrW(&HE001) ' 仮のキャレット
+        .Replacement.Text = TEMP_CARET
         .Execute Replace:=wdReplaceAll
     End With
 End Sub
@@ -112,12 +122,12 @@ Private Sub RestoreEscapedMarkers()
         .MatchWildcards = False
         
         ' 一時文字を "_" に戻す
-        .Text = ChrW(&HE000)
+        .Text = TEMP_UNDERSCORE
         .Replacement.Text = "_"
         .Execute Replace:=wdReplaceAll
         
         ' 一時文字を "^" に戻す
-        .Text = ChrW(&HE001)
+        .Text = TEMP_CARET
         .Replacement.Text = "^"
         .Execute Replace:=wdReplaceAll
     End With
